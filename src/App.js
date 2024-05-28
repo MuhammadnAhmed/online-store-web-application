@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navigation from './Navigation';
+import Home from './Home';
+import Products from './Products';
+import About from './About';
+import Contact from './Contact';
 
-function App() {
+const App = () => {
+  // State to track the total price of items added to the cart
+  const [totalPrice, setTotalPrice] = useState(0);
+  // State to control visibility of the total price
+  const [isTotalVisible, setIsTotalVisible] = useState(false);
+
+  // Function to add a product's price to the total price
+  const addPrice = (price) => {
+    // Update the total price
+    setTotalPrice(prevTotal => prevTotal + price);
+    // Make the total price visible
+    setIsTotalVisible(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* Render the navigation bar */}
+      <Navigation />
+      {/* Define the routes for the application */}
+      <Routes>
+        {/* Route for the page */}
+        <Route path="/" element={<Home />} />   
+             
+        <Route path="/products" element={<Products totalPrice={totalPrice} isTotalVisible={isTotalVisible} addPrice={addPrice} />} />
+       
+        <Route path="/about" element={<About totalPrice={totalPrice} isTotalVisible={isTotalVisible} addPrice={addPrice} />} />
+       
+        <Route path="/contact" element={<Contact totalPrice={totalPrice} isTotalVisible={isTotalVisible} />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
